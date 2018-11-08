@@ -26,9 +26,6 @@ public class SetAlarm extends AppCompatActivity {
     Switch vibrationSwitch;
 //    TextView alarmSong;
 
-    AlarmManager alarm_manager;
-    PendingIntent pendingIntent;
-
     private SharedPreferences pref;
 
     @Override
@@ -40,10 +37,6 @@ public class SetAlarm extends AppCompatActivity {
         alarmSwitch = (Switch) findViewById(R.id.alarmOnOff_switch);
         vibrationSwitch = (Switch) findViewById(R.id.vibration_switch);
 //        alarmSong = (TextView) findViewById(R.id.alarmSong_textView);
-
-        /*알람 매니저 설정*/
-        alarm_manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        final Intent alarmIntent = new Intent(this, AlarmReceiver.class);
 
         /*알람 정보 저장 파일 불러오기*/
         pref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -88,27 +81,11 @@ public class SetAlarm extends AppCompatActivity {
                             , "알림이 설정되었습니다.", Toast.LENGTH_SHORT).show();
                     Log.v("alarmOn=", Boolean.toString(pref.getBoolean(alarmOn, false)));
 
-                    //알람 설정:켜짐
-                    alarmIntent.putExtra("state", "alarm On");
-                    Log.v("alarm on ", "putExtra");
-                    pendingIntent = PendingIntent.getBroadcast(SetAlarm.this,
-                            0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    Log.v("alarm on ", "pendingIntent");
-                    alarm_manager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), pendingIntent);
-                    Log.v("alarm on ", "manager set");
                 } else {
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putBoolean("alarmOn", false);
                     editor.apply();
                     Log.v("alarmOn=", Boolean.toString(pref.getBoolean(alarmOn, true)));
-
-                    //알람 설정:꺼짐
-                    alarm_manager.cancel(pendingIntent);
-                    Log.v("alarm off ", "manager cancel");
-                    alarmIntent.putExtra("state", "alarm off");
-                    Log.v("alarm off ", "put extra");
-                    sendBroadcast(alarmIntent);
-                    Log.v("alarm manager ", "send broadcast");
                 }
             }
         });

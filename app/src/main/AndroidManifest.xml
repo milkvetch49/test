@@ -12,9 +12,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <!--디바이스 재부팅 시 알람 삭제 방지-->
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-
     <uses-feature
         android:name="android.hardware.bluetooth_le"
         android:required="true" />
@@ -64,18 +61,7 @@
             android:permission="android.permission.BIND_JOB_SERVICE" />
 
         <activity android:name=".SetAlarm"/>
-        <receiver
-            android:name=".AlarmReceiver"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="com.test.alarmtestous.ALARM_START"/>
-            </intent-filter>
-        </receiver>
 
-        <service
-            android:name=".RingtonePlayingService"
-            android:enabled="true"/>
     </application>
 
 </manifest>

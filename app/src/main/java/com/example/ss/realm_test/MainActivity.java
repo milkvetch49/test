@@ -279,6 +279,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
                             }
                         }
                     }
+                    Log.v("Handler: ","running");
                 }
             });
         }
